@@ -23,4 +23,17 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
         HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<String> handleUserAlreadyExists(UserAlreadyExistsException ex){
+        return new ResponseEntity<>(
+                ex.getMessage(),
+        HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(AgeVerificationException.class)
+    public  ResponseEntity<String> handleInvalidAge(AgeVerificationException ex){
+        return new ResponseEntity<>(
+                ex.getMessage(),
+                HttpStatus.FORBIDDEN
+        );
+    }
 }

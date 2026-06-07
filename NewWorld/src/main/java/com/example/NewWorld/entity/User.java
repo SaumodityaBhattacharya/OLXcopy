@@ -2,6 +2,8 @@ package com.example.NewWorld.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name="User_Table")
 public class User {
@@ -18,7 +20,7 @@ public class User {
     @NotBlank
     @Size(min=8,message = "Password should be atleast 8 characters long")
     private String userPassword;
-
+    private LocalDate dob;
     @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -88,5 +90,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
     }
 }

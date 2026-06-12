@@ -2,6 +2,7 @@ package com.example.NewWorld.service;
 
 import com.example.NewWorld.Exception.AgeVerificationException;
 import com.example.NewWorld.Exception.UserAlreadyExistsException;
+import com.example.NewWorld.dto.ForgotPasswordRequest;
 import com.example.NewWorld.dto.UserLoginRequest;
 import com.example.NewWorld.entity.Role;
 import com.example.NewWorld.entity.User;
@@ -37,6 +38,9 @@ public class UserService {
             throw new UserAlreadyExistsException("Phone Number already exists");
     }
     return userRepository.save(user);
+}
+public String forgotPassword(ForgotPasswordRequest request){
+        return "Forgot password API called: ";
 }
 public String userLogin(UserLoginRequest request){
       Optional<User> user;

@@ -1,6 +1,7 @@
 package com.example.NewWorld.controller;
 
 import com.example.NewWorld.Exception.AgeVerificationException;
+import com.example.NewWorld.dto.ForgotPasswordRequest;
 import com.example.NewWorld.dto.UserLoginRequest;
 import com.example.NewWorld.entity.User;
 import com.example.NewWorld.service.UserService;
@@ -40,6 +41,10 @@ public class UserAuthorizeController {
     @PostMapping("/userLogin")
     public String LoginUser(@RequestBody UserLoginRequest request){
         return userService.userLogin(request);
+    }
+    @PostMapping("/forgot-password")
+    public String forgotPassword(@RequestBody ForgotPasswordRequest request){
+        return userService.forgotPassword(request);
     }
 
 }

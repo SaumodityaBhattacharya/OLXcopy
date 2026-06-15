@@ -1,8 +1,7 @@
 package com.example.NewWorld.controller;
 
 import com.example.NewWorld.Exception.AgeVerificationException;
-import com.example.NewWorld.dto.ForgotPasswordRequest;
-import com.example.NewWorld.dto.UserLoginRequest;
+import com.example.NewWorld.dto.*;
 import com.example.NewWorld.entity.User;
 import com.example.NewWorld.service.UserService;
 import jakarta.validation.Valid;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.NewWorld.dto.AgeVerificationRequest;
+
 import java.time.LocalDate;
 import java.time.Period;
 import com.example.NewWorld.dto.UserLoginRequest;
@@ -45,6 +44,13 @@ public class UserAuthorizeController {
     @PostMapping("/forgot-password")
     public String forgotPassword(@RequestBody ForgotPasswordRequest request){
         return userService.forgotPassword(request);
+    }
+
+    @PostMapping("/verify-reset-otp")
+    public String verifyOtp(
+            @RequestBody VerifyOtpRequest request){
+
+        return userService.verifyOtpRequest(request);
     }
 
 }

@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="User_Table")
@@ -24,6 +25,8 @@ public class User {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
+    private Integer resetOtp;
+    private LocalDateTime otpGeneratedAt;
     public User(){
     }
 
@@ -98,5 +101,21 @@ public class User {
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
+    }
+
+    public Integer getResetOtp() {
+        return resetOtp;
+    }
+
+    public void setResetOtp(Integer resetOtp) {
+        this.resetOtp = resetOtp;
+    }
+
+    public LocalDateTime getOtpGeneratedAt() {
+        return otpGeneratedAt;
+    }
+
+    public void setOtpGeneratedAt(LocalDateTime otpGeneratedAt) {
+        this.otpGeneratedAt = otpGeneratedAt;
     }
 }

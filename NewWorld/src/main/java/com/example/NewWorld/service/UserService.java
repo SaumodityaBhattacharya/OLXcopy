@@ -3,6 +3,7 @@ package com.example.NewWorld.service;
 import com.example.NewWorld.Exception.AgeVerificationException;
 import com.example.NewWorld.Exception.UserAlreadyExistsException;
 import com.example.NewWorld.dto.ForgotPasswordRequest;
+import com.example.NewWorld.dto.ResetPasswordRequest;
 import com.example.NewWorld.dto.UserLoginRequest;
 import com.example.NewWorld.dto.VerifyOtpRequest;
 import com.example.NewWorld.entity.Role;
@@ -101,6 +102,19 @@ public String verifyOtpRequest(VerifyOtpRequest req){
         return "Invalid OTP";
     }
     return "OTP Verified Successfully";
+}
+
+public String resetPassword(ResetPasswordRequest req){
+        Optional<User> user=userRepository.findByUserEmail(req.getUserEmail());
+        if(user.isEmpty())
+            return "User does not exist";
+    User foundUser=user.get();
+    foundUser.setUserPassword(req.getNewPassword());
+    foundUser.setResetOtp(null);
+    foundUser.setOtpGeneratedAt(null);
+
+    userRepository.save(foundUser);
+    return "Password reset successfully";
 }
 
 

@@ -53,4 +53,11 @@ public class UserAuthorizeController {
         return userService.verifyOtpRequest(request);
     }
 
+    @PostMapping("/reset-password")
+    public String resetPassword(
+            @RequestBody ResetPasswordRequest req){
+
+        return userService.resetPassword(req);
+    }
+
 }

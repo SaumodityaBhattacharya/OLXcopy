@@ -10,6 +10,7 @@ import com.example.NewWorld.entity.Role;
 import com.example.NewWorld.entity.User;
 import com.example.NewWorld.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +21,8 @@ import java.util.Random;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -41,6 +44,8 @@ public class UserService {
         if (user.getUserPhoneNumber() != null && userRepository.findByUserPhoneNumber(user.getUserPhoneNumber()).isPresent()){
             throw new UserAlreadyExistsException("Phone Number already exists");
     }
+        String encodedPassword=passwordEncoder.encode(user.getUserPassword());
+        user.setUserPassword(encodedPassword);
     return userRepository.save(user);
 }
 public String forgotPassword(ForgotPasswordRequest request){
@@ -86,9 +91,12 @@ public String userLogin(UserLoginRequest request){
       if(user.isEmpty())
           return "User does not exist";
       User foundUser=user.get();
-      if(!foundUser.getUserPassword().equals(request.getUserPassword())){
-          return "Invalid Password";
-      }
+    if(!passwordEncoder.matches(
+            request.getUserPassword(),
+            foundUser.getUserPassword())){
+
+        return "Invalid Password";
+    }
       else
           return "User logged in successfully";
 }
@@ -108,8 +116,15 @@ public String resetPassword(ResetPasswordRequest req){
         Optional<User> user=userRepository.findByUserEmail(req.getUserEmail());
         if(user.isEmpty())
             return "User does not exist";
-    User foundUser=user.get();
-    foundUser.setUserPassword(req.getNewPassword());
+    User foundUser = user.get();
+
+    String encodedPassword =
+            passwordEncoder.encode(
+                    req.getNewPassword());
+
+    foundUser.setUserPassword(
+            encodedPassword);
+
     foundUser.setResetOtp(null);
     foundUser.setOtpGeneratedAt(null);
 
